@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="620.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gossipuser.MessengerUI">
+   <children>
+      <HBox prefHeight="620.0" prefWidth="1000.0">
+         <children>
+            <VBox prefHeight="620.0" prefWidth="347.0">
+               <children>
+                  <HBox prefHeight="81.0" prefWidth="344.0">
+                     <children>
+                        <ImageView fx:id="gossipLogo" fitHeight="66.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../icons/icons8-facebook-messenger-100.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="74.0" prefWidth="267.0" text="Chats              ">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="333.0" spacing="10.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <MFXTextField fx:id="searchField" floatMode="DISABLED" prefHeight="41.0" prefWidth="257.0" promptText="Search User" style="-fx-border-color: #4267B2;">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </MFXTextField>
+                        <MFXButton fx:id="searchBtn" buttonType="RAISED" depthLevel="LEVEL3" onAction="#searchBtnOnClick" prefHeight="31.0" prefWidth="75.0" rippleAnimateShadow="true" style="-fx-background-color: #4267B2;" text="Search" textFill="WHITE" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <MFXScrollPane fx:id="userScroller" prefHeight="650.0" prefWidth="338.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <content>
+                        <VBox fx:id="vbox_userList" alignment="TOP_CENTER" prefHeight="447.0" prefWidth="326.0" />
+                     </content>
+                  </MFXScrollPane>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox prefHeight="620.0" prefWidth="646.0">
+               <children>
+                  <VBox prefHeight="61.0" prefWidth="642.0">
+                     <children>
+                        <Label fx:id="user_Label" alignment="TOP_LEFT" prefHeight="35.0" prefWidth="479.0" text="Start talking with your friend">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="15.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="acitve_status" prefHeight="22.0" prefWidth="485.0" text="No chat for you" textFill="GREY">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="10.0" top="-5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Separator prefHeight="4.0" prefWidth="647.0" />
+                  <MFXScrollPane fx:id="messageScroller" prefHeight="481.0" prefWidth="646.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <content>
+                        <VBox fx:id="vbox_message" prefHeight="468.0" prefWidth="626.0" spacing="15.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </MFXScrollPane>
+                  <HBox prefHeight="50.0" prefWidth="631.0">
+                     <children>
+                        <MFXTextField fx:id="NewMessageField" floatMode="DISABLED" prefHeight="38.0" prefWidth="438.0" promptText="Type Your Message" style="-fx-border-color: blue;">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </MFXTextField>
+                        <MFXButton fx:id="SendBtn" buttonType="RAISED" depthLevel="LEVEL3" onAction="#sendBtnOnClick" prefHeight="27.0" prefWidth="82.0" style="-fx-background-color: #4267B2;" text="Send" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="-5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
