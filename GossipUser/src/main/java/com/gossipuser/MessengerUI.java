@@ -17,8 +17,10 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -40,6 +42,8 @@ public class MessengerUI implements Initializable {
 
     @FXML
     private MFXTextField NewMessageField;
+    @FXML
+    private Label clientChatLabel;
 
     @FXML
     private MFXButton SendBtn;
@@ -96,7 +100,7 @@ public class MessengerUI implements Initializable {
 
     @FXML
     void sendBtnOnClick(ActionEvent event) throws IOException {
-        String message = dollarFilter(NewMessageField.getText().toString());
+        String message = dollarFilter(NewMessageField.getText().toString().trim());
         NewMessageField.clear();
 
         if (!message.isEmpty()) {
@@ -113,7 +117,7 @@ public class MessengerUI implements Initializable {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    addPrompt(message, true);
+                                    addPrompt(message, true,  From + "$" + message + "$" + To + "$" + timeStringNow());
                                 }
                             });
                         }
@@ -149,6 +153,28 @@ public class MessengerUI implements Initializable {
                 messageScroller.setVvalue((double) t1);
             }
         });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Client client = new Client();
+                    client.sendMessage("getusername$" + myEmail());
+                    String username = client.readMessage();
+                    client.close();
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            clientChatLabel.setText(username.split(" ")[0].trim() + "'s chat");
+                        }
+                    });
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
         Thread userListThread = new Thread(new Runnable() {
             @Override
@@ -257,7 +283,7 @@ public class MessengerUI implements Initializable {
         MFXButton nameFlow = new MFXButton();
 
         nameFlow.setPadding(new Insets(5,5,5,5));
-        nameFlow.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 18px; -fx-font-weight: bold");
+        nameFlow.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 14px; -fx-font-weight: bold");
         nameFlow.setAlignment(Pos.CENTER);
         nameFlow.setDepthLevel(DepthLevel.LEVEL0);
         nameFlow.setButtonType(ButtonType.FLAT);
@@ -293,7 +319,7 @@ public class MessengerUI implements Initializable {
                                     String request = client.readMessage();
                                     if (request.equals("end")) break;
                                     String[] messageToken = Splitter(request);
-                                    addPrompt(messageToken[1], messageToken[0].equals(myEmail()));
+                                    addPrompt(messageToken[1], messageToken[0].equals(myEmail()), request);
                                     Notify();
                                     Thread.sleep(100);
                                 }
@@ -325,6 +351,7 @@ public class MessengerUI implements Initializable {
         String seenTime = CalculateDiffTime(createDate(timeStringNow()));
         if (tokens.length > 1) {
             Lastmessage = tokens[1];
+            if (Lastmessage.isEmpty()) Lastmessage = "Removed";
             seenTime = CalculateDiffTime(createDate(tokens[3]));
         }
 
@@ -382,11 +409,11 @@ public class MessengerUI implements Initializable {
                 vbox_message.getChildren().clear();
             }
         });
-        ArrayDeque<String > messageQ = FindAConversation(usermail);
+        ArrayDeque<String> messageQ = FindAConversation(usermail);
         for (String msg : messageQ) {
             String[] messageToken = Splitter(msg);
             try {
-                addPrompt(messageToken[1], messageToken[0].equals(myEmail()));
+                addPrompt(messageToken[1], messageToken[0].equals(myEmail()), msg);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -413,7 +440,7 @@ public class MessengerUI implements Initializable {
             return  new ArrayDeque<String>();
         }
     }
-    void addPrompt(String message, boolean From) {
+    void addPrompt(String message, boolean From, String keyMsg) {
         Text text = new Text(message);
         TextFlow textFlow = new TextFlow();
 
@@ -424,13 +451,82 @@ public class MessengerUI implements Initializable {
 
         if (From) {
             hBox.setAlignment(Pos.CENTER_RIGHT);
-            textFlow.setStyle("-fx-background-color: rgb(0, 132, 255);; -fx-background-radius: 18px");
-            text.setFill(Color.color(0.99, 0.99, 0.99));
+            if (!message.isEmpty()) {
+                textFlow.setStyle("-fx-background-color: rgb(0, 132, 255);; -fx-background-radius: 18px");
+                text.setFill(Color.color(0.99, 0.99, 0.99));
+            }
+            else {
+                text.setText("Removed");
+                textFlow.setStyle("-fx-border-color: #d3d3d3; -fx-border-radius: 18px;");
+                text.setFill(Color.color(0.827, 0.827, 0.827));
+            }
         }
         else {
             hBox.setAlignment(Pos.CENTER_LEFT);
-            textFlow.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 18px");
+            if (!message.isEmpty()) {
+                textFlow.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 18px");
+            }
+            else {
+                text.setText("Removed");
+                textFlow.setStyle("-fx-border-color: #d3d3d3; -fx-border-radius: 18px;");
+                text.setFill(Color.color(0.827, 0.827, 0.827));
+            }
         }
+
+        textFlow.hoverProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (message.isEmpty()) return;
+                if (From && t1) {
+                    textFlow.setStyle("-fx-background-color: red; -fx-background-radius: 18px;");
+                    text.setFill(Color.color(0.99, 0.99, 0.99));
+                    text.setText("Unsend this message");
+                }
+                else {
+                    if (From) {
+                        textFlow.setStyle("-fx-background-color: rgb(0, 132, 255); -fx-background-radius: 18px");
+                        text.setText(message);
+                        text.setFill(Color.color(0.99, 0.99, 0.99));
+                    }
+                    else {
+                        textFlow.setStyle("-fx-background-color: #d3d3d3; -fx-background-radius: 18px");
+                        text.setFill(Color.color(0, 0, 0));
+                        text.setText(message);
+                    }
+                }
+            }
+        });
+
+        textFlow.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!From || message.isEmpty()) return;
+                        try {
+                            Client client = new Client();
+                            client.sendMessage("unsend$" + keyMsg);
+                            String response = client.readMessage();
+                            if (response.equals("true")) {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        text.setText("Removed");
+                                        textFlow.setStyle("-fx-border-color: #d3d3d3; -fx-border-radius: 18px;");
+                                        text.setFill(Color.color(0.827, 0.827, 0.827));
+                                    }
+                                });
+                            }
+                            client.close();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
 
         Platform.runLater(new Runnable() {
             @Override

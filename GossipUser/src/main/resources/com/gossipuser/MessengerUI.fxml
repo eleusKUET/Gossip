@@ -26,7 +26,7 @@
                               <Image url="@../../../../icons/icons8-facebook-messenger-100.png" />
                            </image>
                         </ImageView>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="74.0" prefWidth="267.0" text="Chats              ">
+                        <Label fx:id="clientChatLabel" prefHeight="74.0" prefWidth="267.0" text="Chats              ">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
@@ -67,32 +67,33 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="620.0" prefWidth="646.0">
                <children>
-                  <VBox prefHeight="61.0" prefWidth="642.0">
+                  <HBox prefHeight="66.0" prefWidth="646.0">
                      <children>
-                        <Label fx:id="user_Label" alignment="TOP_LEFT" prefHeight="35.0" prefWidth="479.0" text="Start talking with your friend">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="acitve_status" prefHeight="22.0" prefWidth="485.0" text="No chat for you" textFill="GREY">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="10.0" top="-5.0" />
-                           </padding>
-                        </Label>
+                        <VBox prefHeight="66.0" prefWidth="366.0">
+                           <children>
+                              <Label fx:id="user_Label" prefHeight="40.0" prefWidth="376.0" text="Start talking with your friend">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="acitve_status" prefHeight="40.0" prefWidth="376.0" text="No chat for you" textFill="GREY">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="10.0" top="-5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                   <Separator prefHeight="4.0" prefWidth="647.0" />
                   <MFXScrollPane fx:id="messageScroller" prefHeight="481.0" prefWidth="646.0">
                      <VBox.margin>
