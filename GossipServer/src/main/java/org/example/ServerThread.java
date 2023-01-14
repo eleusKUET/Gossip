@@ -138,6 +138,31 @@ public class ServerThread implements Runnable{
                 if (!username.isEmpty()) oos.writeObject(username);
                 else oos.writeObject("false");
                 response.close();
+                return;
+            }
+            if (tokens[0].equals("unsend")) {
+                if (db.unsendMessage("messagedb", tokens[1], tokens[3], tokens[1], tokens[3], tokens[2], tokens[4])) {
+                    if (db.unsendMessage("messagedb", tokens[3], tokens[1], tokens[1], tokens[3], tokens[2], tokens[4])) {
+                        if (db.unsendMessage("newmessagedb", tokens[1], tokens[3], tokens[1], tokens[3], tokens[2], tokens[4])) {
+                            if (db.unsendMessage("newmessagedb", tokens[3], tokens[1], tokens[1], tokens[3], tokens[2], tokens[4])) {
+                                oos.writeObject("true");
+                            }
+                            else {
+                                oos.writeObject("false");
+                            }
+                        }
+                        else  {
+                            oos.writeObject("false");
+                        }
+                    }
+                    else  {
+                        oos.writeObject("false");
+                    }
+                }
+                else {
+                    oos.writeObject("false");
+                }
+                response.close();
             }
         }
         catch (Exception e) {

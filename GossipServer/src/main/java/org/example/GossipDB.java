@@ -2,6 +2,9 @@ package org.example;
 
 import com.mongodb.client.*;
 import org.bson.Document;
+
+import javax.print.Doc;
+import java.io.FileReader;
 import java.util.ArrayDeque;
 
 public class GossipDB {
@@ -335,6 +338,20 @@ public class GossipDB {
         catch (Exception e) {
             System.out.println("Server Problem finding username for " + user1);
             return "";
+        }
+    }
+    boolean unsendMessage(String db_name, String user1, String user2, String From, String to, String message, String upTime) {
+        try (MongoClient mongoClient = MongoClients.create(uri)){
+            MongoDatabase db = mongoClient.getDatabase(db_name);
+            MongoCollection<Document> collection = db.getCollection(user1 + user2);
+            Document replaceDoc = new Document("from", From).append("message", "").append("to", to).append("time", upTime);
+            Document query = new Document("from", From).append("message", message).append("to", to).append("time", upTime);
+            collection.replaceOne(query, replaceDoc);
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println("Server Problem unsending message " + user1);
+            return false;
         }
     }
 }
