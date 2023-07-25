@@ -7,3 +7,4 @@ Used technologies:
 3. materialfx
 4. mongodb
 5. java multithreading
+6. java socket
