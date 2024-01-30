@@ -33,17 +33,17 @@ Gossip is a messaging platform built in Java with JavaFX, MaterialFX, Java socke
 3. Compile and run the server:
 
     ```bash
-    cd server
-    javac ServerMain.java
-    java ServerMain
+    cd GossipServer
+    javac Main.java
+    java Main
     ```
 
 4. Compile and run the client:
 
     ```bash
-    cd client
-    javac ClientMain.java
-    java ClientMain
+    cd GossipUser
+    javac Main.java
+    java Main
     ```
 ## Video Demo
 
