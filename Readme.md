@@ -12,9 +12,8 @@ Gossip is a messaging platform built in Java with JavaFX, MaterialFX, Java socke
 
 ## Prerequisites
 
-- Java (version X.X.X)
-- MongoDB (version X.X.X)
-- (Any other dependencies...)
+- Java 18
+- MongoDB (version 4.7.2)
 
 ## Getting Started
 
