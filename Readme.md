@@ -45,11 +45,9 @@ Gossip is a messaging platform built in Java with JavaFX, MaterialFX, Java socke
     javac ClientMain.java
     java ClientMain
     ```
+## Video Demo
 
-## Configuration
-
-- Server configuration options can be found in `server/config.properties`.
-- Client configuration options can be found in `client/config.properties`.
+Check out the [Gossip Demo Video](https://github.com/eleusKUET/Gossip/blob/main/GossipVideo.mp4) for a visual walkthrough of the application.
 
 ## Usage
 
@@ -59,11 +57,11 @@ Gossip is a messaging platform built in Java with JavaFX, MaterialFX, Java socke
 
 ## Contributing
 
-If you'd like to contribute to this project, please follow the [contribution guidelines](CONTRIBUTING.md).
+If you'd like to contribute to this project, please email me.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is open for development.
 
 ## Acknowledgments
 
@@ -71,5 +69,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-- Maintainer: Eleus Hasan (GitHub: [eleusKUET](https://github.com/eleusKUET))
+- Maintainer: Eleus Ahammad (GitHub: [eleusKUET](https://github.com/eleusKUET))
 
