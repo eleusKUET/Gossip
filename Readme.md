@@ -27,7 +27,7 @@ Gossip is a messaging platform built in Java with JavaFX, MaterialFX, Java socke
 2. Set up MongoDB:
 
     ```bash
-    # Instructions for setting up MongoDB
+    sudo service mongod start
     ```
 
 3. Compile and run the server:
